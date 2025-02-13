@@ -1,0 +1,60 @@
+Основные параметры:
+allowJs: false – Запрещает использование .js файлов в проекте.
+ Только TypeScript.
+
+allowSyntheticDefaultImports: true – Позволяет использовать
+ import X from "module" даже без export default в модуле.
+
+emitDecoratorMetadata: true – Генерирует метаданные для
+ декораторов (нужно для class-transformer, class-validator).
+
+esModuleInterop: true – Позволяет использовать
+ import X from "module" с CommonJS-модулями 
+ (например, import express from 'express').
+
+experimentalDecorators: true – Включает поддержку
+ декораторов (нужно для NestJS, TypeORM, class-validator).
+
+isolatedModules: true – Запрещает использование 
+глобального анализа типов, улучшает совместимость с Babel.
+
+Настройки компиляции:
+lib: ["ES2021"] – Использует стандартную библиотеку
+ ECMAScript 2021.
+
+module: "CommonJS" – Использует require() и module.exports,
+ что совместимо с Node.js.
+
+moduleResolution: "node" – Поиск модулей по логике Node.js.
+
+baseUrl: "./src" – Базовая директория для импортов
+ (import X from "utils/helpers" вместо
+  import X from "../../utils/helpers").
+
+outDir: "./dist" – Каталог для скомпилированного кода.
+
+Оптимизации и безопасность:
+skipLibCheck: true – Пропускает проверку типов внутри
+ файлов .d.ts (ускоряет компиляцию).
+
+sourceMap: true – Генерирует .map файлы для отладки в
+ TypeScript-коде.
+
+strictNullChecks: true – Запрещает null и undefined там,
+ где они не указаны явно.
+
+Целевая версия JavaScript:
+target: "es2019" – Компилирует код в стандарт ES2019
+ (поддерживает async/await, Array.flat(), но без BigInt).
+
+
+ Вывод
+Этот tsconfig.json настроен для работы с TypeScript в
+ Node.js, используя CommonJS-модули, строгую проверку
+  типов, декораторы (возможно, для NestJS или TypeORM), 
+  а также удобную отладку.
+
+Если ты планируешь использовать ESM (ECMAScript Modules), стоит заменить:
+
+"module": "ESNext"
+и запускать Node.js с флагом --loader ts-node/esm.

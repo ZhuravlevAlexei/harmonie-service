@@ -1,2 +1,0 @@
-# harmonie-service
-harmonie-service
