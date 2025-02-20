@@ -1,10 +1,9 @@
 import { model, Schema, InferSchemaType } from 'mongoose';
-
 import { regionSchema } from './region';
 
 const productSchema = new Schema(
   {
-    prom_id: {
+    id: {
       //Унікаьний ідентифікатор товару у базі Prom.ua.
       type: Number,
       required: true,
@@ -69,7 +68,7 @@ const productSchema = new Schema(
       //Наявність товару.
       type: String,
       enum: ['available', 'not_available', 'order', 'service'],
-      default: 'not_available',
+      default: 'available',
     },
     in_stock: {
       //Статус «На складі».
@@ -99,11 +98,11 @@ const productSchema = new Schema(
         },
         date_start: {
           // Дата початку періоду знижок.
-          type: Date,
+          type: String,
         },
         date_end: {
           //Дата закінчення періоду знижок.
-          type: Date,
+          type: String,
         },
       }),
     },
@@ -169,7 +168,23 @@ const productSchema = new Schema(
       //Посилання на головне зображення товару.
       type: String,
     },
-    images: [String], //Додаткові зображення товару.
+    images: [
+      //Додаткові зображення товару.
+      new Schema({
+        url: {
+          //Посилання на зображення.
+          type: String,
+        },
+        thumbnail_url: {
+          //Посилання на мініатюру зображення.
+          type: String,
+        },
+        id: {
+          //Ідентифікатор зображення.
+          type: Number,
+        },
+      }),
+    ],
     status: {
       //Статус товару.
       type: String,
@@ -182,7 +197,7 @@ const productSchema = new Schema(
         'approval_pending',
         'deleted_by_moderator',
       ],
-      default: 'not_on_display',
+      default: 'on_display',
     },
     quantity_in_stock: {
       //Залишок продукту на складі.

@@ -1,5 +1,6 @@
+import { ONE_DAY } from '../constants/index';
 import { Request, Response } from 'express';
-import { seedTheBaseService } from 'services/goods';
+import { seedTheBaseService, updateTheBaseService } from 'services/goods';
 
 export const seedTheBaseController = async (
   req: Request,
@@ -9,6 +10,51 @@ export const seedTheBaseController = async (
 
   res.status(201).json({
     status: 201,
-    message: `Successfully seeded the base! Created: ${seedResults.created}, Updated: ${seedResults.updated}.`,
+    message: seedResults.message,
+  });
+};
+
+// устарела
+// export const updateTheBaseController = async (
+//   req: Request,
+//   res: Response,
+// ): Promise<void> => {
+//   const updateResults = await updateTheBaseService();
+
+//   res.status(201).json({
+//     status: 201,
+//     message: updateResults.message,
+//   });
+// };
+
+export const fullUpdateTheBaseController = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
+  const veryOldDateISO = new Date('2015-01-01T00:00:00.000Z')
+    .toISOString()
+    .split('.')[0];
+
+  const updateResults = await updateTheBaseService(veryOldDateISO);
+
+  res.status(201).json({
+    status: 201,
+    message: updateResults.message,
+  });
+};
+
+export const dailyUpdateTheBaseController = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
+  const currentData = new Date();
+  const aDayAgoDate = new Date(currentData.getTime() - ONE_DAY);
+  const aDayAgoDateISO = aDayAgoDate.toISOString().split('.')[0];
+
+  const updateResults = await updateTheBaseService(aDayAgoDateISO);
+
+  res.status(201).json({
+    status: 201,
+    message: updateResults.message,
   });
 };

@@ -1,10 +1,12 @@
-export interface SeedResults {
-  created: number;
-  updated: number;
+export interface OperationResults {
+  createdProducts: number;
+  updatedProducts: number;
+  createdGroups: number;
+  updatedGroups: number;
   message: string;
 }
 
-export interface Category {
+export interface GroupInXML {
   $: {
     id: string;
     parentId?: string; // Может отсутствовать у корневых категорий
@@ -12,9 +14,9 @@ export interface Category {
   _: string; // Название категории (текстовое содержимое тега)
 }
 
-export interface Categories {
+export interface GroupsInXML {
   //   category: Category[] | Category; // Может быть массивом или одиночным объектом
-  category: Category[];
+  category: GroupInXML[];
 }
 
 export interface Offer {
