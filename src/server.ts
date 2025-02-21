@@ -6,8 +6,6 @@ import { env } from './utils/env';
 import { notFoundHandler } from './middlewares/notFoundHandler';
 import { errorHandler } from './middlewares/errorHandler';
 import router from 'routers';
-import { ctrlWrapper } from 'utils/ctrlWrapper';
-import { seedTheBaseController } from 'controllers/goods';
 
 const PORT = Number(env({ name: 'PORT', defaultValue: '3000' }));
 

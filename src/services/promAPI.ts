@@ -1,13 +1,15 @@
-import { AxiosResponse } from 'axios';
-import { ONE_DAY } from '../constants/index';
+import { GroupType } from 'db/models/group';
 import httpClient from '../utils/httpClient';
+import { ProductType } from 'db/models/product';
 
-// const currentData = new Date();
-// const currentDateISO = currentData.toISOString().split('.')[0];
-// const pastDate = new Date(currentData.getTime() - 15 * 365 * ONE_DAY);
-// const pastDateISO = pastDate.toISOString().split('.')[0];
+interface GroupsResponse {
+  groups: GroupType[];
+}
 
-export const getGroups = async (pastDateISO: string, lastId: number = 0) => {
+export const getGroups = async (
+  pastDateISO: string,
+  lastId: number = 0,
+): Promise<GroupsResponse> => {
   try {
     const currentData = new Date();
     const currentDateISO = currentData.toISOString().split('.')[0];
@@ -25,11 +27,15 @@ export const getGroups = async (pastDateISO: string, lastId: number = 0) => {
   }
 };
 
+interface ProductsResponse {
+  products: ProductType[];
+}
+
 export const getProducts = async (
   pastDateISO: string,
   lastId: number = 0,
   groupId: number = 0,
-) => {
+): Promise<ProductsResponse> => {
   try {
     const currentData = new Date();
     const currentDateISO = currentData.toISOString().split('.')[0];

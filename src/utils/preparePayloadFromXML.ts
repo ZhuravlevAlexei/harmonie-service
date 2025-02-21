@@ -1,6 +1,6 @@
 import { GroupType } from 'db/models/group';
 import { ProductType } from 'db/models/product';
-import { GroupInXML, Offer } from 'interfaces';
+import { GroupInXML, OfferInXML } from 'interfaces';
 
 const getGroupName = (id: string, groups: GroupInXML[]) => {
   const group = groups.find((group) => group.$.id === id);
@@ -70,7 +70,7 @@ export const prepareGroupFromXML = (
 };
 
 export const prepareProductFromXML = (
-  offer: Offer,
+  offer: OfferInXML,
   groups: GroupInXML[],
 ): ProductType => {
   const groupName = getGroupName(offer.categoryId, groups);

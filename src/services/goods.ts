@@ -5,7 +5,7 @@ import {
   createOrUpdateProduct,
 } from 'utils/createOrUpdate';
 import { parseStringPromise } from 'xml2js';
-import { GroupInXML, Offer, OperationResults } from 'interfaces';
+import { GroupInXML, OfferInXML, OperationResults } from 'interfaces';
 import { TEMP_DIR } from '../constants';
 import {
   prepareGroupFromXML,
@@ -13,7 +13,7 @@ import {
 } from 'utils/preparePayloadFromXML';
 import { getGroups, getProducts } from './promAPI';
 
-// эта функция заполняет базу из xml-файла. Данные не полные, только для крайнего
+// эта функция заполняет/обновляет базу из xml-файла. Данные не полные, только для крайнего
 // случая или тестирования
 export const seedTheBaseService = async (): Promise<OperationResults> => {
   const seedResults: OperationResults = {
@@ -28,12 +28,17 @@ export const seedTheBaseService = async (): Promise<OperationResults> => {
     // open file and parse
     const PATH_TO_SEED_FILE = path.join(TEMP_DIR, 'products_seed_run.xml');
     const xmlData = fs.readFileSync(PATH_TO_SEED_FILE, 'utf8');
+
     const result = await parseStringPromise(xmlData, { explicitArray: false });
-    const offersArray: Offer[] = result.yml_catalog.shop.offers.offer || [];
+
     const groupsInXMLArray: GroupInXML[] =
       result.yml_catalog.shop.categories.category || [];
     // console.log('groupsInXMLArray array: ', groupsInXMLArray);
+
+    const offersArray: OfferInXML[] =
+      result.yml_catalog.shop.offers.offer || [];
     // console.log('offers array: ', offersArray);
+
     if (!offersArray.length) {
       console.log('No offers in XML.');
       return {
@@ -43,6 +48,7 @@ export const seedTheBaseService = async (): Promise<OperationResults> => {
     }
     for (const group of groupsInXMLArray) {
       console.log('group: id: ', group.$.id, 'name: ', group._);
+
       // create new or update found group (by categoryId from xml)
       const groupPayload = prepareGroupFromXML(group.$.id, groupsInXMLArray);
       // console.log('groupPayload: ', groupPayload);
@@ -75,7 +81,7 @@ export const seedTheBaseService = async (): Promise<OperationResults> => {
   return seedResults;
 };
 
-// обновление/заполнение базы штатными средствами через API Prom
+// штатное обновление/заполнение базы штатными средствами через API Prom
 export const updateTheBaseService = async (
   pastDateISO: string,
 ): Promise<OperationResults> => {
@@ -98,6 +104,7 @@ export const updateTheBaseService = async (
     // в прошлой итерации
     // Итак группы
     let getMoreGroups = true;
+    let counterGroups = 0;
     let lastGroupId: number = 0;
     while (getMoreGroups) {
       const data = await getGroups(pastDateISO, lastGroupId);
@@ -106,8 +113,18 @@ export const updateTheBaseService = async (
       let itrG: number = 0;
       for (const group of groups) {
         itrG += 1;
-        lastGroupId = group.id;
-        console.log('(', itrG, ') group: ', group.id, ' ', group.name);
+        counterGroups += 1;
+        lastGroupId = Number(group.id);
+        console.log(
+          '(',
+          counterGroups,
+          '/',
+          itrG,
+          ') group: ',
+          group.id,
+          ' ',
+          group.name,
+        );
         // create new or update found group
         await createOrUpdateGroup({
           payload: group,
@@ -119,19 +136,31 @@ export const updateTheBaseService = async (
 
     //Товары
     let getMoreProducts = true;
+    let counterProducts = 0;
     let lastProductId: number = 0;
     while (getMoreProducts) {
       const productsData = await getProducts(
         pastDateISO,
         lastProductId,
-        // group.id, //в API Prom, если не указывать группу, то выдает все товары в каталоге
+        // group.id, //в API Prom, если не указывать группу, то выдает все товары в
+        //  каталоге по 100 штук в запросе см. выше
       );
       const products = productsData.products;
       let itrP = 0;
       for (const product of products) {
         itrP += 1;
+        counterProducts += 1;
         lastProductId = product.id;
-        console.log('', itrP, ' product: ', product.id, ' ', product.name);
+        console.log(
+          '',
+          counterProducts,
+          '/',
+          itrP,
+          ' product: ',
+          product.id,
+          ' ',
+          product.name,
+        );
         await createOrUpdateProduct({
           payload: product,
           operationResults: updateResults,

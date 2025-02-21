@@ -19,13 +19,13 @@ export interface GroupsInXML {
   category: GroupInXML[];
 }
 
-export interface Offer {
+export interface OfferInXML {
   $: { id: string; available: string }; // Атрибуты
   url: string;
   price: string;
   currencyId: string;
   categoryId: string;
-  picture: string[]; // Несколько картинок
+  picture: string | string[]; // Несколько картинок
   name: string;
   name_ua: string;
   vendor: string;
@@ -38,17 +38,17 @@ export interface Offer {
   param?: { $: { name: string }; _: string }[]; // Параметры товара
 }
 
-export interface Offers {
+export interface OffersInXML {
   //   offer: Offer[] | Offer; // Может быть массивом или объектом
-  offer: Offer[];
+  offer: OfferInXML[];
 }
 
-export interface Shop {
-  offers: Offers;
+export interface ShopInXML {
+  offers: OffersInXML;
 }
 
-export interface YmlCatalog {
+export interface YmlCatalogInXML {
   yml_catalog: {
-    shop: Shop;
+    shop: ShopInXML;
   };
 }

@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { seedTheBaseService, updateTheBaseService } from 'services/goods';
 
 export const seedTheBaseController = async (
-  req: Request,
+  _req: Request,
   res: Response,
 ): Promise<void> => {
   const seedResults = await seedTheBaseService();
@@ -14,21 +14,8 @@ export const seedTheBaseController = async (
   });
 };
 
-// устарела
-// export const updateTheBaseController = async (
-//   req: Request,
-//   res: Response,
-// ): Promise<void> => {
-//   const updateResults = await updateTheBaseService();
-
-//   res.status(201).json({
-//     status: 201,
-//     message: updateResults.message,
-//   });
-// };
-
 export const fullUpdateTheBaseController = async (
-  req: Request,
+  _req: Request,
   res: Response,
 ): Promise<void> => {
   const veryOldDateISO = new Date('2015-01-01T00:00:00.000Z')
@@ -44,7 +31,7 @@ export const fullUpdateTheBaseController = async (
 };
 
 export const dailyUpdateTheBaseController = async (
-  req: Request,
+  _req: Request,
   res: Response,
 ): Promise<void> => {
   const currentData = new Date();

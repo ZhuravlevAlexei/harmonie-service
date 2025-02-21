@@ -7,7 +7,7 @@ export interface envProps {
   defaultValue?: string;
 }
 
-export function env(params: envProps) {
+export function env(params: envProps): string {
   const { name, defaultValue } = params;
 
   const value = process.env[name];
