@@ -1,5 +1,6 @@
 import createHttpError from 'http-errors';
 import { Request, Response, NextFunction } from 'express';
+import { env } from 'utils/env';
 
 export const authenticate = async (
   req: Request,
@@ -20,7 +21,7 @@ export const authenticate = async (
     next(createHttpError(401, 'Auth header should be of type Bearer'));
     return;
   }
-  if (token !== process.env.TOKEN) {
+  if (token !== env({ name: 'AUTH_TOKEN' })) {
     next(createHttpError(401, 'Invalid token'));
     return;
   }

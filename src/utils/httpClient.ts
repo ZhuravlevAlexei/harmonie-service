@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { env } from './env';
 
 const httpClient = axios.create({
   // baseURL: 'https://api.example.com', // Базовый URL
@@ -6,7 +7,7 @@ const httpClient = axios.create({
   //   timeout: 5000, // Таймаут 5 секунд
   headers: {
     'Content-Type': 'application/json',
-    Authorization: `Bearer ${process.env.API_TOKEN}`,
+    Authorization: `Bearer ${env({ name: 'API_TOKEN' })}`,
   },
 });
 

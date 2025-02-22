@@ -37,11 +37,6 @@ export const setupServer = () => {
   app.use('*', notFoundHandler);
   app.use(errorHandler);
 
-  // http server
-  // app.listen(PORT, () => {
-  //   console.log(`Server is running on port ${PORT}`);
-  // });
-
   // https  server
   https.createServer(options, app).listen(PORT, () => {
     console.log(`Server is running on  https://localhost:${PORT}`);

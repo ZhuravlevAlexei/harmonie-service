@@ -5,7 +5,6 @@ import { createDirIfNotExists } from 'utils/createDirIfNotExists';
 
 const bootstrap = async () => {
   await initMongoConnection();
-  await createDirIfNotExists(TEMP_DIR);
   setupServer();
 };
 
