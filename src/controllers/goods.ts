@@ -1,18 +1,6 @@
 import { ONE_DAY } from '../constants/index';
 import { Request, Response } from 'express';
-import { seedTheBaseService, updateTheBaseService } from 'services/goods';
-
-export const seedTheBaseController = async (
-  _req: Request,
-  res: Response,
-): Promise<void> => {
-  const seedResults = await seedTheBaseService();
-
-  res.status(201).json({
-    status: 201,
-    message: seedResults.message,
-  });
-};
+import { updateTheBaseService } from 'services/goods';
 
 export const fullUpdateTheBaseController = async (
   _req: Request,

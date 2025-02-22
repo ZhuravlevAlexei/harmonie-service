@@ -6,10 +6,10 @@ import fs from 'fs';
 import path from 'node:path';
 
 import { env } from './utils/env';
+import { SERTIFICATES_DIR } from './constants/index';
+import router from 'routers';
 import { notFoundHandler } from './middlewares/notFoundHandler';
 import { errorHandler } from './middlewares/errorHandler';
-import router from 'routers';
-import { SERTIFICATES_DIR } from './constants/index';
 
 const PORT = Number(env({ name: 'PORT', defaultValue: '3000' }));
 const PATH_TO_SERT_KEY = path.join(SERTIFICATES_DIR, 'server.key');
@@ -39,6 +39,6 @@ export const setupServer = () => {
 
   // https  server
   https.createServer(options, app).listen(PORT, () => {
-    console.log(`Server is running on  https://localhost:${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
   });
 };

@@ -1,85 +1,9 @@
-import fs from 'fs';
-import path from 'node:path';
 import {
   createOrUpdateGroup,
   createOrUpdateProduct,
 } from 'utils/createOrUpdate';
-import { parseStringPromise } from 'xml2js';
-import { GroupInXML, OfferInXML, OperationResults } from 'interfaces';
-import { TEMP_DIR } from '../constants';
-import {
-  prepareGroupFromXML,
-  prepareProductFromXML,
-} from 'utils/preparePayloadFromXML';
+import { OperationResults } from 'interfaces';
 import { getGroups, getProducts } from './promAPI';
-
-// эта функция заполняет/обновляет базу из xml-файла. Данные не полные, только для крайнего
-// случая или тестирования
-export const seedTheBaseService = async (): Promise<OperationResults> => {
-  const seedResults: OperationResults = {
-    createdProducts: 0,
-    updatedProducts: 0,
-    createdGroups: 0,
-    updatedGroups: 0,
-    message: '',
-  };
-
-  try {
-    // open file and parse
-    const PATH_TO_SEED_FILE = path.join(TEMP_DIR, 'products_seed_run.xml');
-    const xmlData = fs.readFileSync(PATH_TO_SEED_FILE, 'utf8');
-
-    const result = await parseStringPromise(xmlData, { explicitArray: false });
-
-    const groupsInXMLArray: GroupInXML[] =
-      result.yml_catalog.shop.categories.category || [];
-    // console.log('groupsInXMLArray array: ', groupsInXMLArray);
-
-    const offersArray: OfferInXML[] =
-      result.yml_catalog.shop.offers.offer || [];
-    // console.log('offers array: ', offersArray);
-
-    if (!offersArray.length) {
-      console.log('No offers in XML.');
-      return {
-        ...seedResults,
-        message: 'No offers in XML.',
-      };
-    }
-    for (const group of groupsInXMLArray) {
-      console.log('group: id: ', group.$.id, 'name: ', group._);
-
-      // create new or update found group (by categoryId from xml)
-      const groupPayload = prepareGroupFromXML(group.$.id, groupsInXMLArray);
-      // console.log('groupPayload: ', groupPayload);
-      await createOrUpdateGroup({
-        payload: groupPayload,
-        operationResults: seedResults,
-      });
-    }
-    // console.log('first offer: ', offersArray[0]);
-    // offersArray.map((offer) => { });  // не работает с await/async!! только в цикле 'for of'
-    for (const offer of offersArray) {
-      console.log('offer: id: ', offer.$.id, 'name: ', offer.name);
-
-      // create new or update found products in db
-      const productPayload = prepareProductFromXML(offer, groupsInXMLArray);
-      await createOrUpdateProduct({
-        payload: productPayload,
-        operationResults: seedResults,
-      });
-    }
-    const nowTime = new Date().toISOString().split('.')[0];
-    const resMessage = `Successfully seeded the base! Time: ${nowTime}. Created:  products - ${seedResults.createdProducts}, groups - ${seedResults.createdGroups}. Updated: products - ${seedResults.updatedProducts}, groups - ${seedResults.updatedGroups}.`;
-    console.log(resMessage);
-    seedResults.message = resMessage;
-  } catch (e) {
-    console.log('Error while seeding the base', e);
-    return { ...seedResults, message: 'Error processing XML' };
-  }
-
-  return seedResults;
-};
 
 // штатное обновление/заполнение базы штатными средствами через API Prom
 export const updateTheBaseService = async (

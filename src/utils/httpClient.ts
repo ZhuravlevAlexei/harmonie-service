@@ -7,7 +7,7 @@ const httpClient = axios.create({
   //   timeout: 5000, // Таймаут 5 секунд
   headers: {
     'Content-Type': 'application/json',
-    Authorization: `Bearer ${env({ name: 'API_TOKEN' })}`,
+    Authorization: `Bearer ${env({ name: 'PROM_API_TOKEN' })}`,
   },
 });
 
