@@ -4,6 +4,7 @@ import {
 } from 'utils/createOrUpdate';
 import { OperationResults } from 'interfaces';
 import { getGroups, getProducts } from './promAPI';
+// import { HiddenGroups } from '../constants/index';
 
 // штатное обновление/заполнение базы штатными средствами через API Prom
 export const updateTheBaseService = async (
@@ -49,6 +50,7 @@ export const updateTheBaseService = async (
           ' ',
           group.name,
         );
+        // if (HiddenGroups.includes(Number(group.id))) continue;
         // create new or update found group
         await createOrUpdateGroup({
           payload: group,
@@ -85,6 +87,7 @@ export const updateTheBaseService = async (
           ' ',
           product.name,
         );
+        // if (HiddenGroups.includes(Number(product.group?.id))) continue;
         await createOrUpdateProduct({
           payload: product,
           operationResults: updateResults,
