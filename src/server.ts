@@ -11,7 +11,7 @@ import router from 'routers';
 import { notFoundHandler } from './middlewares/notFoundHandler';
 import { errorHandler } from './middlewares/errorHandler';
 
-const PORT = Number(env({ name: 'PORT', defaultValue: '3000' }));
+const PORT = Number(env('PORT', '3000'));
 const PATH_TO_SERT_KEY = path.join(SERTIFICATES_DIR, 'server.key');
 const PATH_TO_SERT_CERT = path.join(SERTIFICATES_DIR, 'server.crt');
 const options = {

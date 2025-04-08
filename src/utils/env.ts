@@ -2,14 +2,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-export interface envProps {
-  name: string;
-  defaultValue?: string;
-}
-
-export function env(params: envProps): string {
-  const { name, defaultValue } = params;
-
+export function env(name: string, defaultValue?: string): string {
   const value = process.env[name];
 
   if (value) return value;

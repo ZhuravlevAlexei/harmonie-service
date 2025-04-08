@@ -1,6 +1,9 @@
 import { ONE_DAY } from '../constants/index';
 import { Request, Response } from 'express';
-import { updateTheBaseService } from 'services/goods';
+import {
+  updateTheBaseService,
+  updateTheProductDataService,
+} from 'services/goods';
 
 export const fullUpdateTheBaseController = async (
   _req: Request,
@@ -27,6 +30,18 @@ export const dailyUpdateTheBaseController = async (
   const aDayAgoDateISO = aDayAgoDate.toISOString().split('.')[0];
 
   const updateResults = await updateTheBaseService(aDayAgoDateISO);
+
+  res.status(201).json({
+    status: 201,
+    message: updateResults.message,
+  });
+};
+
+export const productDataUpdateController = async (
+  _req: Request,
+  res: Response,
+): Promise<void> => {
+  const updateResults = await updateTheProductDataService();
 
   res.status(201).json({
     status: 201,

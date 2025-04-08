@@ -21,7 +21,7 @@ export const authenticate = async (
     next(createHttpError(401, 'Auth header should be of type Bearer'));
     return;
   }
-  if (token !== env({ name: 'AUTH_TOKEN' })) {
+  if (token !== env('AUTH_TOKEN')) {
     next(createHttpError(401, 'Invalid token'));
     return;
   }
