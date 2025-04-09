@@ -10,7 +10,7 @@ export const productDataSchema = new Schema(
       type: String,
       required: true,
     },
-    images: [{ url: String }],
+    images: [{ type: String }],
     params: [{ name: String, value: String }],
   },
   {
@@ -21,4 +21,8 @@ export const productDataSchema = new Schema(
 
 export type ProductDataType = InferSchemaType<typeof productDataSchema>;
 
-export const ProductsDataCollection = model('productdata', productDataSchema);
+export const ProductsDataCollection = model(
+  'productsdata',
+  productDataSchema,
+  'productsdata',
+);

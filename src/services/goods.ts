@@ -115,7 +115,7 @@ export const updateTheBaseService = async (
   return updateResults;
 };
 
-export const updateTheProductDataService =
+export const updateTheProductsDataService =
   async (): Promise<OperationResults> => {
     const updateResults: OperationResults = {
       createdProducts: 0,

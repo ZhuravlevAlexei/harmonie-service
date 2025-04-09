@@ -2,7 +2,7 @@ import { ONE_DAY } from '../constants/index';
 import { Request, Response } from 'express';
 import {
   updateTheBaseService,
-  updateTheProductDataService,
+  updateTheProductsDataService,
 } from 'services/goods';
 
 export const fullUpdateTheBaseController = async (
@@ -37,11 +37,11 @@ export const dailyUpdateTheBaseController = async (
   });
 };
 
-export const productDataUpdateController = async (
+export const productsDataUpdateController = async (
   _req: Request,
   res: Response,
 ): Promise<void> => {
-  const updateResults = await updateTheProductDataService();
+  const updateResults = await updateTheProductsDataService();
 
   res.status(201).json({
     status: 201,

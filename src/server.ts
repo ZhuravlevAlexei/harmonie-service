@@ -5,11 +5,11 @@ import pino from 'pino-http';
 import fs from 'fs';
 import path from 'node:path';
 
-import { env } from './utils/env';
-import { SERTIFICATES_DIR } from './constants/index';
 import router from 'routers';
 import { notFoundHandler } from './middlewares/notFoundHandler';
 import { errorHandler } from './middlewares/errorHandler';
+import { env } from './utils/env';
+import { SERTIFICATES_DIR } from './constants/index';
 
 const PORT = Number(env('PORT', '3000'));
 const PATH_TO_SERT_KEY = path.join(SERTIFICATES_DIR, 'server.key');

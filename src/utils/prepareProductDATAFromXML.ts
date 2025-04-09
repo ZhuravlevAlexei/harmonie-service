@@ -3,9 +3,9 @@ import { OfferInXML } from 'interfaces';
 
 const getPictures = (offer: OfferInXML) => {
   if (typeof offer.picture === 'string') {
-    return [{ url: offer.picture }];
+    return [offer.picture as string];
   } else if (Array.isArray(offer.picture)) {
-    return offer.picture?.map((p) => ({ url: p }));
+    return offer.picture?.map((p) => p as string);
   } else {
     return [];
   }
@@ -16,8 +16,7 @@ const getParams = (offer: OfferInXML) => {
     return offer.param?.map((p) => ({ name: p.$.name, value: p._ }));
   } else if (typeof offer.param === 'object') {
     const { $, _ } = offer.param;
-    const parName = $['name'];
-    return [{ name: parName, value: _ }];
+    return [{ name: $['name'], value: _ }];
   } else {
     return [];
   }
