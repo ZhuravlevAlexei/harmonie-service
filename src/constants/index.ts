@@ -1,5 +1,11 @@
 import path from 'node:path';
 
+export const ROLES = {
+  ADMIN: 'admin',
+  MANAGER: 'manager',
+  USER: 'user',
+};
+
 export const SERTIFICATES_DIR = path.join(process.cwd(), 'sertificates');
 export const DOWNLOADS_DIR = path.join(process.cwd(), 'downloads');
 
