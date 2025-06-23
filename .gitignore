@@ -10,5 +10,5 @@
 .idea
 
 *.xml
-*.key
-*.crt
+# *.key
+# *.crt
