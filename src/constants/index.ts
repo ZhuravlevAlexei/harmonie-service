@@ -6,7 +6,8 @@ export const ROLES = {
   USER: 'user',
 };
 
-export const SERTIFICATES_DIR = path.join(process.cwd(), 'sertificates');
+// /etc/secrets/ - это путь к секретам на render.com
+export const SERTIFICATES_DIR = path.join(process.cwd(), 'etc', 'secrets');
 export const DOWNLOADS_DIR = path.join(process.cwd(), 'downloads');
 
 export const ONE_DAY = 1 * 24 * 60 * 60 * 1000; //1 day (in miliseconds)
