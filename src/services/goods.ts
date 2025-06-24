@@ -40,6 +40,13 @@ export const updateTheBaseService = async (
     let getMoreGroups = true;
     let counterGroups = 0;
     let lastGroupId: number = 0;
+
+    const startTime = new Date().toISOString().split('.')[0];
+    console.log(
+      `Products update started from ${pastDateISO}. Current time: `,
+      startTime,
+    );
+
     while (getMoreGroups) {
       const data = await getGroups(pastDateISO, lastGroupId);
       // console.log('data: ', data);
@@ -49,16 +56,19 @@ export const updateTheBaseService = async (
         itrG += 1;
         counterGroups += 1;
         lastGroupId = Number(group.id);
-        console.log(
-          '(',
-          counterGroups,
-          '/',
-          itrG,
-          ') group: ',
-          group.id,
-          ' ',
-          group.name,
-        );
+
+        //инфрормация об обрабатываемой группе
+        // console.log(
+        //   '(',
+        //   counterGroups,
+        //   '/',
+        //   itrG,
+        //   ') group: ',
+        //   group.id,
+        //   ' ',
+        //   group.name,
+        // );
+
         // if (HiddenGroups.includes(Number(group.id))) continue;
         // create new or update found group
         await createOrUpdateGroup({
@@ -86,16 +96,19 @@ export const updateTheBaseService = async (
         itrP += 1;
         counterProducts += 1;
         lastProductId = product.id;
-        console.log(
-          '',
-          counterProducts,
-          '/',
-          itrP,
-          ' product: ',
-          product.id,
-          ' ',
-          product.name,
-        );
+
+        //инфрормация об обрабатываемом товаре
+        // console.log(
+        //   '',
+        //   counterProducts,
+        //   '/',
+        //   itrP,
+        //   ' product: ',
+        //   product.id,
+        //   ' ',
+        //   product.name,
+        // );
+
         // if (HiddenGroups.includes(Number(product.group?.id))) continue;
         await createOrUpdateProduct({
           payload: product,
@@ -128,6 +141,9 @@ export const updateTheProductsDataService =
     const xmlUrl = env('PROM_XML_URL');
     const saveDirectory = DOWNLOADS_DIR;
 
+    const startTime = new Date().toISOString().split('.')[0];
+    console.log('Products DATA update started. Current time: ', startTime);
+
     try {
       const savedPath = await downloadPromXML(xmlUrl, saveDirectory);
       console.log('Файл успешно сохранён в:', savedPath);
@@ -159,7 +175,10 @@ export const updateTheProductsDataService =
       let itr = 0;
       for (const offer of offersArray) {
         itr += 1;
-        console.log(itr, ' offer: id: ', offer.$.id, 'name: ', offer.name);
+
+        // информация об обрабатываемом товаре
+        // console.log(itr, ' offer: id: ', offer.$.id, 'name: ', offer.name);
+
         const productDATAPayload = prepareProductDATAFromXML(offer);
 
         await createOrUpdateProductData({

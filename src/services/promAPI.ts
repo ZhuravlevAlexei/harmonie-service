@@ -17,7 +17,8 @@ export const getGroups = async (
     const requestString = `/groups/list?last_modified_from=${pastDateISO}&last_modified_to=${currentDateISO}&limit=100${
       lastId ? `&last_id=${lastId}` : ''
     }`;
-    console.log('requestString: ', requestString);
+
+    // console.log('requestString: ', requestString);
 
     const response = await httpClient.get(requestString);
     return response.data;
@@ -43,7 +44,9 @@ export const getProducts = async (
     const requestString = `/products/list?last_modified_from=${pastDateISO}&last_modified_to=${currentDateISO}&limit=100${
       lastId ? `&last_id=${lastId}` : ''
     }${groupId ? `&group_id=${groupId}` : ''}`;
-    console.log('requestString: ', requestString);
+
+    // console.log('requestString: ', requestString);
+
     const response = await httpClient.get(requestString);
     return response.data;
   } catch (error) {
